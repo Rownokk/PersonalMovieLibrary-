@@ -1,0 +1,43 @@
+﻿@model List<PersonalMovieLibrary__.Models.Movie>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>FlickFuison - Cozy Movie Wonderland</h2>
+
+<form method="get" style="margin-bottom: 20px;">
+    <label style="color:white;">Sorting Wish: </label>
+    <select name="sortOrder" onchange="this.form.submit()">
+        <option value="">Select</option>
+        <option value="title_asc" @(ViewBag.CurrentSort == "title_asc" ? "selected" : "")>Title A-Z</option>
+        <option value="title_desc" @(ViewBag.CurrentSort == "title_desc" ? "selected" : "")>Title Z-A</option>
+        <option value="rating_high" @(ViewBag.CurrentSort == "rating_high" ? "selected" : "")>Rating High-Low</option>
+        <option value="rating_low" @(ViewBag.CurrentSort == "rating_low" ? "selected" : "")>Rating Low-High</option>
+    </select>
+</form>
+
+@if (TempData["Message"] != null)
+{
+    <div class="message">@TempData["Message"]</div>
+}
+
+<div class="movie-grid">
+    @foreach (var movie in Model)
+    {
+        <div class="movie-card">
+            <img src="@movie.ThumbnailPath" class="movie-thumbnail" />
+            <div class="movie-details">
+                <h4>@movie.Title</h4>
+                <p>⭐ @String.Format("{0:0.0}", movie.AverageRating)</p>
+                <a href="@Url.Action("AddToWatchlist", "Movie", new { title = movie.Title })" class="btn-action">+ Watchlist</a>
+                <div class="star-rating">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <a href="@Url.Action("RateMovie", "Movie", new { title = movie.Title, rating = i })" title="@i Star">
+                            <i class="fa-solid fa-star"></i>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

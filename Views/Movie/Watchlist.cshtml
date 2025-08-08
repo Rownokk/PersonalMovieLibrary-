@@ -1,0 +1,30 @@
+﻿@model List<PersonalMovieLibrary__.Models.WatchlistItem>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Watchlist</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="message">@TempData["Message"]</div>
+}
+
+@if (!Model.Any())
+{
+    <p>No movies in watchlist. Go add some!</p>
+}
+else
+{
+    <div class="movie-grid">
+        @foreach (var item in Model)
+        {
+            <div class="movie-card">
+                <img src="@Url.Content("~/Content/MovieLibrary/" + item.Title + ".jpg")" class="movie-thumbnail" />
+                <div class="movie-details">
+                    <h4>@item.Title</h4>
+                    <a href="@Url.Action("RemoveFromWatchlist", "Movie", new { title = item.Title })" class="btn-action">Remove</a>
+                </div>
+            </div>
+        }
+    </div>
+}

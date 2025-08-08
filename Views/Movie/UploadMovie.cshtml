@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>📤 Upload New Movie</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="message">@TempData["Message"]</div>
+}
+
+@using (Html.BeginForm("UploadMovie", "Movie", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div style="margin-bottom: 15px;">
+        <input type="file" name="file" />
+    </div>
+    <button type="submit" class="btn-action">Upload</button>
+}
